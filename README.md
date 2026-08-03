@@ -4,7 +4,7 @@ Aplicación web para gestión personal, desarrollada como proyecto de aprendizaj
 
 ## Estado actual del proyecto
 
-🔵 **En análisis y diseño** — Iteración 1 en curso.
+🔵 **Diseño finalizado, lista para implementación** — Iteración 1 en curso.
 
 Módulo activo: **Tareas y Recordatorios**.
 
@@ -50,6 +50,8 @@ tests/   # Pruebas automatizadas
 - [Resumen general del proceso](docs/proceso-proyecto-gestion-personal.md)
 - [Historias de usuario — Iteración 1](docs/01-analisis/historias-usuario.md)
 - [Decisiones de alcance](docs/01-analisis/decisiones-alcance.md)
+- [Modelo de datos](docs/02-diseno/modelo-datos.md)
+- [Arquitectura](docs/02-diseno/arquitectura.md)
 
 ## Cómo correr el proyecto
 
