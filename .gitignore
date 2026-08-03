@@ -1,2 +1,6 @@
 # .gitignore
 .obsidian/
+
+node_modules/
+
+.env

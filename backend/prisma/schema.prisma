@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tarea {
+  id            String    @id @default(uuid())
+  titulo        String
+  fechaLimite   DateTime?
+  prioridad     Prioridad
+  categoria     String?
+  estado        Estado    @default(PENDIENTE)
+  fechaCreacion DateTime  @default(now())
+}
+
+model Recordatorio {
+  id            String   @id @default(uuid())
+  titulo        String
+  fecha         DateTime
+  fechaCreacion DateTime @default(now())
+}
+
+enum Prioridad {
+  ALTA
+  MEDIA
+  BAJA
+}
+
+enum Estado {
+  PENDIENTE
+  COMPLETADA
+}
