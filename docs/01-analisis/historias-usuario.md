@@ -8,8 +8,8 @@
 - [x] HU-04: Marcar tarea como completada
 - [x] HU-05: Listar y ordenar tareas
 - [x] HU-06: Buscar/filtrar tareas
-- [ ] HU-07: Crear recordatorio
-- [ ] HU-08: Editar y eliminar recordatorio
+- [x] HU-07: Crear recordatorio
+- [x] HU-08: Editar y eliminar recordatorio
 
 ## Módulo: Tareas
 
