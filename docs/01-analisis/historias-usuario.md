@@ -1,5 +1,16 @@
 # Historias de Usuario — Iteración 1
 
+## Estado de implementación
+
+- [x] HU-01: Crear tarea
+- [x] HU-02: Editar tarea
+- [x] HU-03: Eliminar tarea
+- [x] HU-04: Marcar tarea como completada
+- [x] HU-05: Listar y ordenar tareas
+- [x] HU-06: Buscar/filtrar tareas
+- [x] HU-07: Crear recordatorio
+- [x] HU-08: Editar y eliminar recordatorio
+
 ## Módulo: Tareas
 
 ### HU-01: Crear tarea

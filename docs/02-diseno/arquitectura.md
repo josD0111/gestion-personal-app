@@ -63,3 +63,12 @@ Flujo de una petición: `routes → controllers → services → Prisma → Post
 | DELETE | /api/recordatorios/:id | HU-08: Eliminar recordatorio (con confirmación en el frontend) |
 
 **Nota de diseño**: `completar` es una ruta separada de la edición general, ya que marcar como completada es una acción de negocio específica, no una edición genérica de campos.
+
+## Nota sobre la versión de Prisma (v7)
+
+Este proyecto usa **Prisma 7**, que introdujo cambios importantes respecto a versiones anteriores:
+
+- La configuración de conexión (`DATABASE_URL`) ya no vive en `schema.prisma`, sino en un archivo separado `prisma.config.ts` en la raíz del backend.
+- Prisma 7 requiere un **driver adapter** explícito (`@prisma/adapter-pg` + `pg`) para conectarse a PostgreSQL, en vez de manejar la conexión internamente como en versiones anteriores.
+
+El cliente de Prisma se centraliza en `src/lib/prisma.ts`, instanciado una única vez con el adapter configurado, y se importa desde ahí en todos los `services` (evita múltiples conexiones/pools innecesarios a la base de datos).
