@@ -4,7 +4,7 @@ Aplicación web para gestión personal, desarrollada como proyecto de aprendizaj
 
 ## Estado actual del proyecto
 
-🔵 **Diseño finalizado, lista para implementación** — Iteración 1 en curso.
+🔵 **Frontend en desarrollo** — Backend completo (Iteración 1). Frontend funcional para Tareas; Recordatorios pendiente.
 
 Módulo activo: **Tareas y Recordatorios**.
 

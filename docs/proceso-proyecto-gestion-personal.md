@@ -123,3 +123,19 @@ Se subió por error un archivo `.env` a una rama remota antes de agregarlo al `.
 ## 10. Estado actual
 
 Backend de la Iteración 1 completo (Tareas y Recordatorios). Pendiente: Frontend, tests automatizados, e Iteración 2 (repetición de tareas/recordatorios).
+
+## 11. Frontend — Iteración 1 (Tareas)
+
+Stack: React + TypeScript + Vite, con axios como cliente HTTP.
+
+Estructura: `api/` (comunicación con backend), `types/` (tipos compartidos), `components/` (UI).
+
+Funcionalidad implementada y probada en navegador: crear, listar, marcar como completada, y eliminar tareas (con confirmación antes de eliminar, resuelta en el frontend según lo definido en el diseño).
+
+### Problemas técnicos resueltos
+- **`import type` en Vite**: necesario porque Vite transpila archivo por archivo (esbuild) y no distingue tipos de valores como sí lo hace `tsc` en el backend.
+- **CORS**: el frontend y el backend corren en puertos distintos (orígenes distintos para el navegador), se resolvió habilitando el middleware `cors` en el backend, autorizando explícitamente el origen del frontend.
+
+## 12. Estado actual (actualizado)
+
+Backend completo. Frontend funcional para Tareas, sin estilos. Pendiente: frontend de Recordatorios, estilos, tests automatizados.

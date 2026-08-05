@@ -72,3 +72,42 @@ Este proyecto usa **Prisma 7**, que introdujo cambios importantes respecto a ver
 - Prisma 7 requiere un **driver adapter** explícito (`@prisma/adapter-pg` + `pg`) para conectarse a PostgreSQL, en vez de manejar la conexión internamente como en versiones anteriores.
 
 El cliente de Prisma se centraliza en `src/lib/prisma.ts`, instanciado una única vez con el adapter configurado, y se importa desde ahí en todos los `services` (evita múltiples conexiones/pools innecesarios a la base de datos).
+
+## Nota sobre TypeScript en Vite: `import type`
+
+Vite transpila cada archivo TypeScript de forma aislada (con `esbuild`), sin analizar el proyecto completo como hace `tsc`. Esto significa que no puede distinguir automáticamente si un `import` trae un tipo (interface) o un valor real (función, clase). Si se importan solo tipos sin la palabra clave `type`, Vite genera un `import` de JavaScript que intenta buscar ese valor en tiempo de ejecución — y falla, porque los tipos no existen luego de compilar.
+
+**Regla aplicada en el frontend**: toda importación de interfaces/tipos usa `import type`, por ejemplo:
+```typescript
+import type { Tarea, CrearTareaInput } from "../types/tarea";
+```
+
+Este problema no aparece en el backend porque ahí se compila con `tsc`, que sí distingue tipos de valores analizando el proyecto completo.
+
+## CORS (Cross-Origin Resource Sharing)
+
+El frontend (`http://localhost:5173`) y el backend (`http://localhost:3000`) son orígenes distintos para el navegador (mismo host, distinto puerto), por lo que las peticiones eran bloqueadas por política de seguridad del navegador.
+
+**Solución**: se agregó el middleware `cors` en el backend, autorizando explícitamente el origen del frontend:
+
+```typescript
+app.use(cors({ origin: "http://localhost:5173" }));
+```
+
+Se usó el origen específico en vez de `origin: "*"` (que permite cualquier origen) como buena práctica de seguridad, incluso en desarrollo — evita acostumbrarse a una configuración que sería riesgosa en producción.
+
+## Arquitectura interna del Frontend
+
+```
+frontend/src/
+├── api/ # Comunicación con el backend (cliente axios centralizado + funciones por recurso)
+├── types/ # Tipos TypeScript compartidos, reflejando el modelo de datos del backend
+├── components/ # Componentes de UI, con responsabilidades acotadas
+├── App.tsx # Componente raíz, orquesta el estado compartido entre componentes
+└── main.tsx # Punto de entrada, monta React en el DOM
+```
+
+**Cliente HTTP**: se eligió `axios` sobre `fetch` nativo para centralizar configuración (URL base, headers) en una sola instancia (`api/cliente.ts`), y porque lanza excepciones automáticamente ante respuestas HTTP de error, evitando chequeos manuales repetidos.
+
+**Patrón de comunicación entre componentes**: los componentes hijos no llaman a la API directamente en todos los casos ni deciden lógica de confirmación de negocio; reciben funciones callback desde su padre (ej. `onCompletarToggle`, `onEliminar`) y el padre común (`App.tsx`) coordina el estado compartido (ej. refrescar la lista tras crear una tarea).
+
