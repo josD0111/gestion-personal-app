@@ -85,3 +85,41 @@ Idea original del cliente (6 módulos):
 Diseño técnico de la Iteración 1:
 - Modelo de datos (entidades, atributos, relaciones)
 - Arquitectura básica de la aplicación web
+
+## 8. Diseño técnico — Iteración 1
+
+### Modelo de datos
+- **Tarea**: id, titulo, fechaLimite (opcional), prioridad (Alta/Media/Baja), categoria (texto libre), estado (Pendiente/Completada), fechaCreacion.
+- **Recordatorio**: id, titulo, fecha (obligatoria), fechaCreacion.
+- Entidades independientes, sin relación entre sí (decisión deliberada, principio YAGNI).
+
+### Arquitectura
+- Separación en 3 capas: Frontend (React + TS) / Backend (Node + Express + TS) / Base de datos (PostgreSQL).
+- Backend organizado en capas internas: `routes → controllers → services → Prisma`.
+- Comunicación vía API REST (JSON sobre HTTP).
+- ORM: Prisma, con cliente centralizado en `src/lib/prisma.ts`.
+
+### Particularidad técnica: Prisma 7
+El proyecto usa Prisma 7, que cambió su forma de configurar la conexión a la base de datos:
+- La `url` ya no va en `schema.prisma`, sino en `prisma.config.ts`.
+- Requiere un driver adapter explícito (`@prisma/adapter-pg` + `pg`) en vez de manejar la conexión internamente.
+
+## 9. Implementación — Iteración 1
+
+Se implementaron las 8 historias de usuario (HU-01 a HU-08), cubriendo Tareas y Recordatorios completos: crear, editar, eliminar, listar/ordenar, buscar/filtrar, y marcar como completada (solo Tareas). Verificación funcional manual con cURL sobre todos los endpoints, incluyendo casos de validación inválidos.
+
+### Buenas prácticas de código aplicadas
+- Separación estricta de responsabilidades entre controller (HTTP) y service (lógica de negocio).
+- DRY aplicado con criterio: se extrajo el manejo de errores compartido (`manejarError`) recién al repetirse por segunda vez, evitando abstracción prematura.
+- Cliente de Prisma centralizado para evitar múltiples conexiones a la base de datos.
+
+### Incidente y aprendizaje: exposición de credencial
+Se subió por error un archivo `.env` a una rama remota antes de agregarlo al `.gitignore`. Resuelto: rotación de la credencial de base de datos + reescritura del historial de la rama afectada (`git rm --cached`, `git reset --soft`, `push --force` — seguro por tratarse de una rama individual no compartida). Lección: ante un secreto expuesto, rotar la credencial es más importante que solo limpiar el historial.
+
+### Retrospectiva de la Iteración 1
+**Funcionó bien**: troceo de alcance permitió cerrar un incremento completo; centralizar Prisma antes de escribir el segundo service evitó duplicar trabajo.
+**A mejorar**: falta cobertura de tests automatizados (toda la verificación fue manual).
+
+## 10. Estado actual
+
+Backend de la Iteración 1 completo (Tareas y Recordatorios). Pendiente: Frontend, tests automatizados, e Iteración 2 (repetición de tareas/recordatorios).

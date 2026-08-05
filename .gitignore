@@ -1,4 +1,6 @@
 # .gitignore
+.vscode/
+
 .obsidian/
 
 node_modules/
